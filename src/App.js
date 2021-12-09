@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
 function App() {
   const [data, setData] = useState([
@@ -37,9 +38,13 @@ function App() {
     const newData = {
       id: Date.now(),
       title,
-      body
+      body,
     }
-    setData([ newData, ...data])
+    setData([newData, ...data])
+  }
+
+  const removeItem = (id) => {
+    setData(data.filter((el) => el.id !== id))
   }
   return (
     <div>
@@ -69,12 +74,23 @@ function App() {
           </option>
         ))}
       </select>
-      {data ? (
-        querySearch.map((el, index) => (
-          <h2 key={el.id}>
-            {index + 1}.{el.title} - {el.body}
-          </h2>
-        ))
+      {data.length ? (
+        <TransitionGroup>
+          {querySearch.map((el, index) => (
+            <CSSTransition key={el.id} timeout={200} classNames='item'>
+              <h2 >
+                {index + 1}.{el.title} - {el.body}
+                <span
+                  onClick={() => removeItem(el.id)}
+                  style={{ color: 'red' }}
+                >
+                  {' '}
+                  &#215;
+                </span>
+              </h2>
+            </CSSTransition>
+          ))}
+        </TransitionGroup>
       ) : (
         <h1>ничего нет</h1>
       )}
