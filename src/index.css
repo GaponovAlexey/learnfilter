@@ -29,5 +29,5 @@ code {
 }
 .item-exit-active {
   transform: translateX(-350px );
-  transition: all 900ms ease-in;
+  transition: all 300ms ease-in;
 }
