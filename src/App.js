@@ -1,38 +1,59 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
+import ApiResponse from './API/fetchin'
 
 function App() {
-  const [data, setData] = useState([
-    { id: 1, title: 'Java', body: 'history' },
-    { id: 2, title: 'Javascript', body: 'favorite' },
-    { id: 3, title: 'Go', body: 'feature' },
-    { id: 4, title: 'Rast', body: 'good' },
-    { id: 5, title: 'C++', body: 'legacy' },
-    { id: 6, title: 'C#', body: 'game' },
-    { id: 7, title: 'Kotlin', body: 'android' },
-    { id: 8, title: 'Ryby', body: 'functional' },
-    { id: 9, title: 'Python', body: 'good' },
-    { id: 10, title: 'basic', body: 'legacy' },
-  ])
+  const [data, setData] = useState([])
   const [options, setOptions] = useState([
     { value: 'title', name: 'по заголовку' },
     { value: 'body', name: 'по телу' },
   ])
   const [title, setTitle] = useState('')
   const [body, setBody] = useState('')
-  const [select, setSelect] = useState('')
-  const [query, setQuery] = useState('')
-  console.log('da')
+  const [filter, setFILTER] = useState({
+    select: '',
+    query: '',
+  })
+
+  const [allPage, setALLPAGE] = useState({
+    fullPage: 0,
+    page: 2,
+    limit: 10,
+  })
+
+  const getArrayPages = () => {
+    let result = []
+    for(let i = 0; i < allPage.fullPage; i++){
+      result.push(i + 1)
+    }
+    return result
+  }
+  const ArrayPages = getArrayPages()
+
+
+  const fetching = async () => {
+    const response = await ApiResponse.getAll(allPage.page, allPage.limit)
+    setData(response.data)
+    const fullPage = response.headers['x-total-count']
+    setALLPAGE({ ...allPage, fullPage: Math.ceil(fullPage / allPage.limit) })
+  }
+  useEffect(() => {
+    fetching()
+  }, [allPage.page])
 
   const selectSearch = useMemo(() => {
-    if (select) {
-      return [...data].sort((a, b) => a[select].localeCompare(b[select]))
+    if (filter.select) {
+      return [...data].sort((a, b) =>
+        a[filter.select].localeCompare(b[filter.select])
+      )
     }
     return data
-  }, [select, data])
+  }, [filter.select, data])
   const querySearch = useMemo(() => {
-    return selectSearch.filter((el) => el.title.toLowerCase().includes(query))
-  }, [query, selectSearch])
+    return selectSearch.filter((el) =>
+      el.title.toLowerCase().includes(filter.query)
+    )
+  }, [filter.query, selectSearch])
 
   const addData = () => {
     const newData = {
@@ -49,8 +70,8 @@ function App() {
   return (
     <div>
       <input
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
+        value={filter.query}
+        onChange={(e) => setFILTER({ ...filter, query: e.target.value })}
         placeholder='search'
       />
       <hr />
@@ -66,7 +87,10 @@ function App() {
       />
       <button onClick={addData}>send</button>
       <hr />
-      <select value={select} onChange={(el) => setSelect(el.target.value)}>
+      <select
+        value={filter.select}
+        onChange={(el) => setFILTER({ ...filter, select: el.target.value })}
+      >
         <option disabled>поиск</option>
         {options.map((el) => (
           <option key={el.value} value={el.value}>
@@ -76,10 +100,10 @@ function App() {
       </select>
       {data.length ? (
         <TransitionGroup>
-          {querySearch.map((el, index) => (
+          {querySearch.map((el) => (
             <CSSTransition key={el.id} timeout={200} classNames='item'>
-              <h2 >
-                {index + 1}.{el.title} - {el.body}
+              <h2>
+                {el.id}.{el.title} - {el.body}
                 <span
                   onClick={() => removeItem(el.id)}
                   style={{ color: 'red' }}
@@ -94,6 +118,12 @@ function App() {
       ) : (
         <h1>ничего нет</h1>
       )}
+      {allPage ? <div>
+        {ArrayPages.map(p => <spam
+        key={p}
+        onClick={() => setALLPAGE({allPage, page: p}) }
+        >{p}</spam>)}
+      </div> : <span>no page</span>}
     </div>
   )
 }
