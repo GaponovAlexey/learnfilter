@@ -121,7 +121,7 @@ function App() {
       {allPage ? <div>
         {ArrayPages.map(p => <spam
         key={p}
-        onClick={() => setALLPAGE({allPage, page: p}) }
+        onClick={() => setALLPAGE({...allPage, page: p}) }
         >{p}</spam>)}
       </div> : <span>no page</span>}
     </div>
