@@ -32,7 +32,7 @@ code {
 }
 
 .pagin__wraper {
-  margin-top: 30px;
+  margin: 10px;
   display: flex;
   /* box-shadow: inset -1px 3px 8px 5px #1f87ff, 2px 5px 16px 0px #0b33, */
     /* 5px 5px 15px 5px rgba(0, 0, 0, 0); */
@@ -40,7 +40,7 @@ code {
 
 
 .pagin {
-  padding: 5px;
+  padding: 7px;
   border: 1px solid teal;
   cursor: pointer;
 }
