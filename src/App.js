@@ -17,14 +17,14 @@ function App() {
 
   const [allPage, setALLPAGE] = useState({
     fullPage: 0,
-    page: 2,
-    limit: 10,
+    page: 1,
+    limit: 3,
   })
 
   const getArrayPages = () => {
     let result = []
-    for(let i = 0; i < allPage.fullPage; i++){
-      result.push(i + 1)
+    for(let i = 1; i < allPage.fullPage; i++){
+      result.push(i)
     }
     return result
   }
@@ -118,7 +118,7 @@ function App() {
       ) : (
         <h1>ничего нет</h1>
       )}
-      {allPage ? <div>
+      {allPage ? <div className='pagin' >
         {ArrayPages.map(p => <spam
         key={p}
         onClick={() => setALLPAGE({...allPage, page: p}) }

@@ -12,22 +12,30 @@ code {
     monospace;
 }
 
-
 .remove-btn {
   margin-right: 0.5rem;
 }
 
 .item-enter {
-  transform: translateX(-150px );
+  transform: translateX(-150px);
 }
 .item-enter-active {
-  transform: translateX(0px );
+  transform: translateX(0px);
   transition: all 500ms ease-in;
 }
 .item-exit {
   opacity: 1;
 }
 .item-exit-active {
-  transform: translateX(-350px );
+  transform: translateX(-350px);
   transition: all 300ms ease-in;
+}
+
+.pagin {
+  padding: 10px 30px 10px 20px;
+  box-shadow: inset -1px 3px 8px 5px #1f87ff, 2px 5px 16px 0px #0b33,
+    5px 5px 15px 5px rgba(0, 0, 0, 0);
+}
+padin:hover {
+  color: #eb5959;
 }
