@@ -63,7 +63,8 @@ function App() {
     }
     setData([newData, ...data])
   }
-
+  
+console.log('render');
   const removeItem = (id) => {
     setData(data.filter((el) => el.id !== id))
   }
@@ -121,7 +122,7 @@ function App() {
       {allPage ? <div className='pagin__wraper' >
         {ArrayPages.map(p => <spam
         key={p}
-        className='pagin'
+        className={allPage.page === p ? 'pagin pagin__curent' : 'pagin'}
         onClick={() => setALLPAGE({...allPage, page: p}) }
         >{p}</spam>)}
       </div> : <span>no page</span>}

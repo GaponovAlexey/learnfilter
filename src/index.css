@@ -41,5 +41,11 @@ code {
 
 .pagin {
   padding: 5px;
-  
+  border: 1px solid teal;
+  cursor: pointer;
+}
+
+.pagin__curent {
+  border: 1px solid fuchsia;
+  font-weight: bold;
 }
