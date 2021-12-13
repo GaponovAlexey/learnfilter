@@ -118,9 +118,10 @@ function App() {
       ) : (
         <h1>ничего нет</h1>
       )}
-      {allPage ? <div className='pagin' >
+      {allPage ? <div className='pagin__wraper' >
         {ArrayPages.map(p => <spam
         key={p}
+        className='pagin'
         onClick={() => setALLPAGE({...allPage, page: p}) }
         >{p}</spam>)}
       </div> : <span>no page</span>}
